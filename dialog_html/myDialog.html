@@ -1,0 +1,14 @@
+<fieldset id="dialogFieldset">
+    <h1>Hello World!!</h1>
+
+    <button type="button" id="btnInDialog" class="btn btn-primary">點我</button>
+
+    <script>
+        $(() => {
+            $(`#dialogFieldset`).on('click', '#btnInDialog', (e) => {
+                e.preventDefault;
+                alert(`我是 btnInDialog `);
+            });
+        });
+    </script>
+</fieldset>

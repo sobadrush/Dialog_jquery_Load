@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用 jquery load 其他頁面成為dialog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/dark-hive/jquery-ui.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- jQuery CDN : https://cdnjs.com/libraries/jqueryui -->
+
+    <h1>jQuery Load 定義&用法</h1>
+    <h3>說明：load() 方法通过 AJAX 请求从服务器加载数据，并把返回的数据放置到指定的元素中。</h3>
+
+    <div id="myDiv1" style="border:2px solid black; display:none;"><!-- dialog Div1 -->
+        <h1>我是預先定義好的Dialog內容</h1>
+    </div>
+    
+    <div id="myDiv2" style="border:2px solid black; display:none;"></div><!-- dialog Div2 -->
+
+    <button type="button" id="myBtn1" class="btn btn-info">開啟dialog(先寫好dialog內容)</button>
+    <button type="button" id="myBtn2" class="btn btn-danger">開啟dialog(使用load動態載入dialog內容)</button>
+
+    <script>
+        $(function () {
+
+            /*
+             * (Type A)直接加載預先定義好的Dialog內容 myDiv1
+             */
+            $("#myBtn1").click((e) => {
+                e.preventDefault();
+                $("#myDiv1").dialog({
+                    modal: true,
+                    width: "50%",
+                    maxWidth: "70%",
+                    buttons: {
+                        '測試alert': function () {
+                            alert('哈哈哈!!');
+                        },
+                        '關閉Dialog': function () {
+                            $(this).dialog('close');
+                        }
+                    }
+                });
+            });
+
+            /*
+             * (Type B)使用 load 將html load回來，再使用 dailog() 開啟
+             */
+            $("#myBtn2").click((e) => {
+                e.preventDefault();
+
+                let toUrl = `./dialog_html/myDialog.html`;
+                let postData = { 'empName': 'Roger' };
+
+                $("#myDiv2").load(toUrl, /*postData ,*/ (response, status, xhr) => {
+                    console.log(`%c response >>> `, 'color:green' , response);
+                    console.log(`%c status >>> `, 'color:green' , status);
+                    console.log(`%c xhr >>> `, 'color:green' , xhr);
+                }).dialog({
+                    modal: true,
+                    width: "50%",
+                    maxWidth: "70%",
+                    buttons: {
+                        '測試alert': function () {
+                            alert('哈哈哈!!');
+                        },
+                        '關閉Dialog': function () {
+                            $(this).dialog('close');
+                        }
+                    }
+                });
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>
